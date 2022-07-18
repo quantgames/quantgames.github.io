@@ -45,6 +45,7 @@ function setBoard() {
   let right = document.getElementById("right_word");
   let progress = document.getElementById("progress");
   let board = document.getElementById("solution");
+  var randomLetter = Math.floor(Math.random()*solution['word'].length);
   
   left.innerHTML = problem['left_word'];
   right.innerHTML = problem['right_word'];
@@ -53,8 +54,14 @@ function setBoard() {
   for (let i = 0; i < solution['word'].length; i++) {
     let box = document.createElement("span");
     box.className = "button is-active is-size-1 m-1";
+    if (i == randomLetter) {
+      box.innerHTML = solution['word'][randomLetter];
+      box.className += ' has-text-grey-light';
+    }
     board.appendChild(box);
   }
+  
+  
 }
 
 function clearBoard() {
@@ -89,6 +96,9 @@ $(function() {
     if (key >= 65 && key <= 90) {
       var character = String.fromCharCode(key);
       var nextPos = getNextPos();
+      if ($('#solution span:eq(' + nextPos + ')').hasClass('has-text-grey-light')) {
+        $('#solution span:eq(' + nextPos + ')').removeClass('has-text-grey-light');
+      }
       $('#solution span:eq(' + nextPos + ')').text(character);
       text += character;
       if (getCurrentPos() == getLastPos()) {
